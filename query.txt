@@ -38,4 +38,22 @@ Contare quanti corsi di laurea ci sono per ogni dipartimento:
 SELECT departments.name, COUNT(*) FROM degrees INNER JOIN departments ON degrees.department_id = departments.id GROUP BY departments.id
 
 Selezionare tutti gli studenti iscritti al Corso di Laurea in Economia:
+SELECT degrees.name, students.name, students.surname FROM students INNER JOIN degrees ON students.degree_id = degrees.id WHERE degrees.name LIKE '%Economia%'
 
+Selezionare tutti i Corsi di Laurea del Dipartimento di Neuroscienze:
+SELECT departments.name, degrees.name FROM degrees INNER JOIN departments ON degrees.department_id = departments.id WHERE departments.name = 'Dipartimento di Neuroscienze'
+
+Selezionare tutti i corsi in cui insegna Fulvio Amato (id=44):
+SELECT courses.name, teachers.name, teachers.surname FROM courses INNER JOIN teachers INNER JOIN course_teacher ON course_teacher.teacher_id = teachers.id WHERE teachers.id = 44
+
+Selezionare tutti gli studenti con i dati relativi al corso di laurea a cui sono iscritti e il relativo dipartimento, in ordine alfabetico per cognome e nome:
+SELECT students.name, students.surname, degrees.name, departments.name FROM students INNER JOIN degrees INNER JOIN departments ON degrees.department_id = departments.id AND students.degree_id = degrees.id ORDER BY `students`.`surname`
+
+Selezionare tutti i corsi di laurea con i relativi corsi e insegnanti:
+SELECT degrees.name, courses.name, teachers.name, teachers.surname FROM `degrees` INNER JOIN courses INNER JOIN teachers INNER JOIN course_teacher ON course_teacher.course_id = courses.id AND course_teacher.teacher_id = teachers.id ORDER BY degrees.name
+
+Selezionare tutti i docenti che insegnano nel Dipartimento di Matematica (54):
+SELECT teachers.surname, teachers.name, departments.name FROM teachers INNER JOIN course_teacher ON course_teacher.teacher_id = teachers.id INNER JOIN courses ON course_teacher.course_id = courses.id INNER JOIN degrees ON courses.degree_id = degrees.id INNER JOIN departments ON degrees.department_id = departments.id WHERE departments.id = 5 ORDER BY teachers.surname
+
+BONUS
+Selezionare per ogni studente quanti tentativi d’esame ha sostenuto per superare ciascuno dei suoi esami:
